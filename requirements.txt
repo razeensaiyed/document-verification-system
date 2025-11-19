@@ -1,0 +1,17 @@
+# Core ML and Computer Vision
+numpy>=1.24.0,<2.0
+scipy>=1.10.0
+Pillow>=10.0.0
+
+# PyTorch and Face Recognition
+torch>=2.0.0
+torchvision>=0.15.0
+facenet-pytorch>=2.6.0
+
+# Image Processing and Comparison
+opencv-python>=4.8.0
+scikit-image>=0.21.0
+
+# Google Cloud Document AI
+google-cloud-documentai>=2.20.0
+google-api-core>=2.11.0

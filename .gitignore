@@ -1,0 +1,48 @@
+# Virtual environments
+venv/
+.venv/
+env/
+*/venv/
+*/env/
+
+# Google Cloud credentials - NEVER UPLOAD THESE!
+*.json
+ai-internship-*.json
+service-account-key.json
+!requirements.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Test images (optional - remove these lines if you want to include test images)
+test_face_image*.jpg
+shivom.jpg
+piyush.jpg
+
+# Extracted results
+extracted_*.jpg
+extracted_*.png
+*_results.json
+face_comparison_results.json
+extraction_comparison_results.json
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
