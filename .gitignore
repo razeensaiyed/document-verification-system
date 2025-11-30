@@ -9,6 +9,8 @@ env/
 *.json
 ai-internship-*.json
 service-account-key.json
+!package.json
+!package-lock.json
 !requirements.json
 
 # Python cache
@@ -21,8 +23,11 @@ __pycache__/
 
 # Test images (optional - remove these lines if you want to include test images)
 test_face_image*.jpg
+test_face_image*.png
 shivom.jpg
 piyush.jpg
+*COMEDK*.jpg
+*COMEDK*.png
 
 # Extracted results
 extracted_*.jpg
@@ -30,6 +35,24 @@ extracted_*.png
 *_results.json
 face_comparison_results.json
 extraction_comparison_results.json
+debug_sig*.jpg
+debug_stamp*.jpg
+
+# Backend uploads and results
+backend/uploads/
+backend/results/
+backend/annotated/
+backend/*.jpg
+backend/*.png
+
+# React/Node
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
 # IDE and editors
 .vscode/
@@ -46,3 +69,17 @@ extraction_comparison_results.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Coverage and testing
+coverage/
+.nyc_output/
+*.cover
+.pytest_cache/

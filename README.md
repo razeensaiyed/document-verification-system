@@ -1,261 +1,229 @@
 # Document Verification System
 
-Hello dear reader. I am a 19 year old Computer Engineering student based in Mumbai, India. I have created an AI-powered document verification system that compares identity documents by analyzing faces, signatures, and stamps using deep learning and computer vision techniques.
+AI-powered document verification system that compares identity documents by analyzing faces, signatures, and stamps using deep learning and computer vision.
 
-## Features
+## 🎯 Project Overview
 
-- **Face Detection & Comparison**: Using MTCNN for detection and FaceNet (InceptionResnetV1) for embedding-based comparison
-- **Signature Extraction**: Using Google Cloud Document AI custom processors with pretrained foundation models
-- **Stamp Extraction & Comparison**: Multi-method comparison using SSIM, ORB feature matching, and histogram correlation
-- **Configurable Thresholds**: Adjustable similarity thresholds for different verification scenarios
-- **Detailed Results**: JSON output with similarity scores, match verdicts, and detection confidence
+This system verifies if two identity documents (ID cards, passports, admit cards) belong to the same person by analyzing:
+- **Face Recognition** - Using FaceNet with 512-dimensional embeddings
+- **Signature Comparison** - Using Google Cloud Document AI + multi-method comparison
+- **Stamp Verification** - Using computer vision (SSIM, ORB, histogram correlation)
 
-## Project Structure
+**Live Demo:** [Add deployment link when deployed]
+
+## 📁 Project Structure
 ```
 document-verification-system/
-├── face_comparison/           # Face detection and comparison module
-│   └── face_comparison.py    # Complete face verification pipeline
-├── sign_and_stamp_comparison/ # Signature and stamp extraction/comparison
-│   └── full_extraction_test.py  # Document AI integration and comparison
+├── backend/                    # FastAPI backend
+│   ├── app/
+│   │   ├── services/          # Business logic
+│   │   │   ├── face_service.py
+│   │   │   ├── document_ai_service.py
+│   │   │   ├── signature_stamp_service.py
+│   │   │   └── image_annotation_service.py
+│   │   └── utils/             # Helper functions
+│   │       └── file_handler.py
+│   └── main.py                # FastAPI application
+│
+├── frontend/                   # React frontend
+│   ├── src/
+│   │   ├── App.js             # Main React component
+│   │   └── App.css            # Styles
+│   └── package.json
+│
+├── face_comparison/            # Original face comparison module
+│   └── face_comparison.py
+│
+├── sign_and_stamp_comparison/  # Extraction testing
+│   └── full_extraction_test.py
+│
 ├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
-## Technologies Used
+## 🛠️ Technologies Used
 
+### **Backend**
 - **Python 3.11**
-- **Deep Learning**: PyTorch, FaceNet-PyTorch
-- **Cloud AI**: Google Cloud Document AI (Custom Extractors)
-- **Computer Vision**: OpenCV, scikit-image
-- **Scientific Computing**: NumPy, SciPy
+- **FastAPI** - Modern REST API framework
+- **FaceNet (PyTorch)** - Face recognition
+- **Google Cloud Document AI** - Signature/stamp extraction
+- **OpenCV** - Image processing
+- **scikit-image** - SSIM comparison
 
-## Prerequisites
+### **Frontend**
+- **React 18** - User interface
+- **Axios** - API calls
+- **Modern CSS** - Responsive design
 
-- Python 3.11 or higher
-- Google Cloud account with Document AI API enabled
-- Service account with Document AI API User role
-- Custom processors trained for signature and stamp extraction
+### **AI/ML**
+- **MTCNN** - Face detection
+- **InceptionResnetV1** - Face embeddings
+- **Document AI Custom Extractors** - Signature/stamp detection
 
-## Setup Instructions
+## 🚀 Setup Instructions
 
-### 1. Clone the Repository
+### **Prerequisites**
+- Python 3.11
+- Node.js 16+
+- Google Cloud account with Document AI enabled
+
+### **1. Clone Repository**
 ```bash
 git clone https://github.com/YOUR_USERNAME/document-verification-system.git
 cd document-verification-system
 ```
 
-### 2. Create Virtual Environment
+### **2. Backend Setup**
 ```bash
-# Windows
+# Create virtual environment
 python -m venv venv
+
+# Activate (Windows)
 venv\Scripts\activate
 
-# macOS/Linux
-python3 -m venv venv
+# Activate (Mac/Linux)
 source venv/bin/activate
-```
 
-### 3. Install Dependencies
-```bash
+# Install dependencies
 pip install -r requirements.txt
+
+# Set Google Cloud credentials
+set GOOGLE_APPLICATION_CREDENTIALS="path\to\service-account-key.json"
+
+# Run backend
+cd backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 4. Set Up Google Cloud Credentials
+Backend will run on: http://localhost:8000
+
+### **3. Frontend Setup**
 ```bash
-# Set environment variable to your service account key
-# Windows
-setx GOOGLE_APPLICATION_CREDENTIALS "C:\path\to\your\service-account-key.json"
+# Install dependencies
+cd frontend
+npm install
 
-# macOS/Linux
-export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-key.json"
+# Start development server
+npm start
 ```
 
-### 5. Configure Processor IDs
+Frontend will run on: http://localhost:3000
 
-Update the following values in the scripts:
+## 📖 Usage
 
-**In `sign_and_stamp_comparison/full_extraction_test.py`:**
+1. **Start Backend** (Terminal 1)
+2. **Start Frontend** (Terminal 2)
+3. **Open browser** to http://localhost:3000
+4. **Upload two documents** (drag & drop or click)
+5. **Click "Compare Documents"**
+6. **View results** with annotated images and similarity scores
+
+## 🔧 Configuration
+
+### **Google Cloud Setup**
+
+1. Create project on Google Cloud Console
+2. Enable Document AI API
+3. Create custom processors:
+   - Signature extractor
+   - Stamp extractor
+4. Create service account with "Document AI API User" role
+5. Download service account key JSON
+
+### **Update Processor IDs**
+
+In `backend/main.py`:
 ```python
-PROJECT_ID = "your-project-id"
 SIGNATURE_PROCESSOR_ID = "your-signature-processor-id"
 STAMP_PROCESSOR_ID = "your-stamp-processor-id"
 ```
 
-## Usage
+### **Adjust Thresholds**
 
-### Face Comparison
-```bash
-cd face_comparison
-python face_comparison.py
-```
+- **Face similarity**: 0.6 (60% match)
+- **Signature similarity**: 0.5 (50% match)
+- **Stamp similarity**: 0.6 (60% match)
 
-**What it does:**
-- Detects faces in two documents using MTCNN
-- Extracts 512-dimensional embeddings using FaceNet
-- Compares embeddings using cosine similarity
-- Saves extracted face images and JSON results
+Modify in respective service files.
 
-**Configuration:**
-```python
-# In face_comparison.py
-document1 = 'your_document1.jpg'
-document2 = 'your_document2.jpg'
-similarity_threshold = 0.6  # Adjust as needed
-```
+## 📊 API Endpoints
 
-### Signature & Stamp Extraction and Comparison
-```bash
-cd sign_and_stamp_comparison
-python full_extraction_test.py
-```
+### **GET /**
+Health check
 
-**What it does:**
-- Extracts signatures/stamps using Google Cloud Document AI
-- Crops extracted regions from documents
-- Compares using multiple techniques (SSIM, ORB, histogram)
-- Saves extracted images and JSON results
+### **GET /health**
+Detailed service status
 
-**Configuration:**
-```python
-# In full_extraction_test.py
-DOC1_PATH = "document1.jpg"
-DOC2_PATH = "document2.jpg"
-```
+### **POST /api/compare**
+Compare two documents
+- **Input**: Two image files (multipart/form-data)
+- **Output**: JSON with comparison results
 
-## Configuration
+### **GET /api/annotated/{filename}**
+Retrieve annotated image
 
-### Default Thresholds
+## 🎨 Features
 
-- **Face Comparison**: 0.6 (similarity score)
-  - 0.7+ = High confidence match
-  - 0.6-0.7 = Moderate match
-  - <0.6 = No match
+✅ **Drag & Drop Upload** - Easy file upload  
+✅ **Multi-Modal Verification** - Face + Signature + Stamp  
+✅ **Visual Annotations** - Colored bounding boxes  
+✅ **Detailed Results** - Similarity scores for each component  
+✅ **Download Reports** - JSON export  
+✅ **Responsive Design** - Works on desktop and mobile  
 
-- **Signature Comparison**: 0.5 (combined score)
-  - More lenient due to signature variations
+## 📈 Performance
 
-- **Stamp Comparison**: 0.6 (combined score)
-  - Higher threshold for official stamps
+- **Face Detection**: 99-100% confidence on clear images
+- **Processing Time**: 5-10 seconds per document pair
+- **Accuracy**: 
+  - Same person: 0.60-0.85 similarity
+  - Different people: 0.30-0.50 similarity
 
-### Adjusting Thresholds
-```python
-# Face comparison
-compare_documents(doc1, doc2, similarity_threshold=0.7)  # Stricter
+## 🔒 Security
 
-# Signature comparison
-comparator.compare_signatures(sig1, sig2, threshold=0.4)  # More lenient
+- ✅ No credentials in repository
+- ✅ Environment variables for API keys
+- ✅ Temporary file cleanup
+- ✅ Input validation
+- ✅ CORS configured for development
 
-# Stamp comparison
-comparator.compare_stamps(stamp1, stamp2, threshold=0.7)  # Stricter
-```
+## 🐛 Known Issues
 
-## Output Format
+1. **PNG Transparency**: Images with alpha channel automatically converted to RGB
+2. **Signature Detection**: Some signatures detected as stamps (processor training needed)
+3. **Processing Time**: First request slower (model loading)
 
-### Face Comparison Results
-```json
-{
-  "status": "success",
-  "overall_match": true,
-  "doc1_faces_count": 1,
-  "doc2_faces_count": 1,
-  "comparisons": [
-    {
-      "doc1_face_id": 1,
-      "doc2_face_id": 1,
-      "match": true,
-      "similarity": 0.6179,
-      "distance": 0.3821
-    }
-  ],
-  "best_match": {
-    "doc1_face_id": 1,
-    "doc2_face_id": 1,
-    "match": true,
-    "similarity": 0.6179
-  },
-  "threshold_used": 0.6
-}
-```
+## 📝 Future Enhancements
 
-### Signature/Stamp Comparison Results
-```json
-{
-  "signatures": {
-    "match": false,
-    "confidence": 0.3839,
-    "threshold": 0.5,
-    "details": {
-      "ssim": 0.0110,
-      "histogram": 0.9433,
-      "combined": 0.3839
-    }
-  },
-  "stamps": {
-    "match": true,
-    "confidence": 0.7234,
-    "threshold": 0.6
-  }
-}
-```
+- [ ] Batch processing (multiple document pairs)
+- [ ] PDF report generation
+- [ ] User authentication
+- [ ] Database storage for results
+- [ ] Improved processor training
+- [ ] Mobile app version
 
-## Testing
-
-### Test with Sample Documents
-```bash
-# Positive test (same person)
-python face_comparison.py  # Using matching ID documents
-
-# Negative test (different people)
-# Update script with different person's documents
-python face_comparison.py
-```
-
-### Expected Results
-
-- **Same person**: Similarity > 0.6, Match = True
-- **Different people**: Similarity < 0.5, Match = False
-
-## Project Status
-
-- ✅ **Face extraction and comparison** - Complete
-- ✅ **Signature extraction (Google Cloud AI)** - Complete
-- ✅ **Stamp extraction and comparison** - Complete
-- ✅ **Multi-method comparison algorithms** - Complete
-- 🚧 **Web frontend interface** - In Development
-- 🚧 **FastAPI backend** - Planned
-- 🚧 **Batch processing** - Planned
-
-## Security Notes
-
-- **Never commit** Google Cloud service account JSON files
-- Keep API keys and credentials in environment variables
-- Use `.gitignore` to exclude sensitive files
-- Consider using Google Secret Manager for production
-
-## Contributing
-
-This is a personal project for educational purposes. Feedback and suggestions are welcome!
-
-## License
-
-This project is for educational and research purposes.
-
-## Author
+## 👤 Author
 
 **Razeen Husain Aejaz Husain Saiyed**
+- Computer Engineering Student
+- Mumbai, India
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Google Cloud Document AI for signature/stamp extraction
-- FaceNet-PyTorch for face recognition implementation
-- MTCNN for robust face detection
-- OpenCV and scikit-image for image processing
+- FaceNet-PyTorch for face recognition
+- Google Cloud Document AI
+- OpenCV and scikit-image communities
 
-## Support
+## 📄 License
 
-For issues or questions, please open an issue on GitHub.
+This project is for educational purposes.
+
+## 📞 Support
+
+For issues or questions, open an issue on GitHub.
 
 ---
 
-**Note**: This system is designed for document verification and identity validation purposes. Ensure compliance with local privacy and data protection regulations when handling identity documents.
+**Built with ❤️ using AI and Computer Vision**
