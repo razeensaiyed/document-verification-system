@@ -9,7 +9,6 @@ This system verifies if two identity documents (ID cards, passports, admit cards
 - **Signature Comparison** - Using Google Cloud Document AI + multi-method comparison
 - **Stamp Verification** - Using computer vision (SSIM, ORB, histogram correlation)
 
-**Live Demo:** [Add deployment link when deployed]
 
 ## 📁 Project Structure
 ```
@@ -225,5 +224,3 @@ This project is for educational purposes.
 For issues or questions, open an issue on GitHub.
 
 ---
-
-**Built with ❤️ using AI and Computer Vision**
